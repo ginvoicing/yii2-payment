@@ -27,9 +27,9 @@ class RazorPay extends Base implements ProviderInterface
         $responseObject->setRaw(json_encode($razorPayResponse->toArray()));
         $responseObject->setPaymentId($razorPayResponse->id);
         $responseObject->setAmount($razorPayResponse->amount);
-        $responseObject->setCurrency($razorPayApiCall->currency);
-        $responseObject->setContactEmail($razorPayApiCall->email);
-        $responseObject->setContactPhone($razorPayApiCall->contact);
+        $responseObject->setCurrency($razorPayResponse->currency);
+        $responseObject->setContactEmail($razorPayResponse->email);
+        $responseObject->setContactPhone($razorPayResponse->contact);
 
         return $responseObject;
     }
