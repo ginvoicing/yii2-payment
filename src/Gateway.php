@@ -26,11 +26,11 @@ class Gateway extends Component
 
     }
 
-    public function processPayment(string $gatewayName): Response
+    public function processPayment(string $gatewayName, string $paymentReference): Response
     {
         /** var $selectedProvider */
         $selectedProvider = \Yii::createObject($this->providers[$gatewayName]);
-        return $selectedProvider->process();
+        return $selectedProvider->process($paymentReference);
     }
 
 }
