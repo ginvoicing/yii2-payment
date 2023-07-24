@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  SwiftCurrencyDb:
+    image: mariadb:10.4-focal
+    container_name: SwiftCurrencyCtnr
+    ports:
+      -  ${MYSQL_PORT}:3306
+    labels:
+      - swiftcurrency-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-u$MYSQL_ROOT_PASSWORD", "-p$MYSQL_PASSWORD" , "-h", "127.0.0.1" ]
+      interval: 10s
+      timeout: 20s
+      retries: 5
