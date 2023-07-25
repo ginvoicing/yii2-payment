@@ -19,6 +19,7 @@ class RazorPay extends Base implements ProviderInterface
     public function process(string $paymentReference): Response
     {
         $responseObject = new Response();
+        $razorPayResponse = null;
         try {
             $razorPayApiCall = new Api($this->apiKey, $this->apiSecret);
             $razorPayResponse = $razorPayApiCall->payment->fetch($paymentReference);
@@ -31,12 +32,12 @@ class RazorPay extends Base implements ProviderInterface
             $responseObject->setContactPhone($razorPayResponse->contact);
             $responseObject->setStatus(Status::SUCCESS->value);
         } catch (\Exception $e) {
-            $responseObject->setRaw(json_encode($razorPayResponse->toArray()));
-            $responseObject->setPaymentId(null);
-            $responseObject->setAmount(0);
-            $responseObject->setCurrency(null);
-            $responseObject->setContactEmail($razorPayResponse->email);
-            $responseObject->setContactPhone($razorPayResponse->contact);
+            // $responseObject->setRaw(json_encode($razorPayResponse->toArray()));
+            // $responseObject->setPaymentId(null);
+            // $responseObject->setAmount(0);
+            // $responseObject->setCurrency(null);
+            // $responseObject->setContactEmail($razorPayResponse->email);
+            // $responseObject->setContactPhone($razorPayResponse->contact);
             $responseObject->setStatus(Status::FAILED->value);
             throw new BadGateway($e->getMessage(), $e->getCode());
         }
