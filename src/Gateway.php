@@ -48,20 +48,7 @@ class Gateway extends Component
 
         try {
             $response = $selectedProvider->process($paymentReference);
-             // Output the values for debugging purposes
-             print_r($response->getStatus());
-             echo "log1";
-             print_r(Status::SUCCESS);
-             echo "log2";
-             print_r($response->getStatus() === Status::SUCCESS);
-             echo "log3";
-             var_dump("Logging:", $this->logging);
-             var_dump("Status:", $response->getStatus());
-             var_dump("Instance:", get_class($selectedProvider));
-             var_dump("Logger:", $this->_logger);
-             var_dump("Logger Instance:", $this->_logger instanceof LoggerInterface);
-            if ($this->logging !== false && $this->_logger instanceof LoggerInterface && $response->getStatus() === Status::SUCCESS) {
-          
+            if ($this->logging !== false && $this->_logger instanceof LoggerInterface && $response->getStatus() === Status::SUCCESS->value) {
                 $this->_logger->setRecord([
                     'payment_id' => $response->getPaymentId(),
                     'phone' => $response->getContactPhone(),
