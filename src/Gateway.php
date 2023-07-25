@@ -27,8 +27,7 @@ class Gateway extends Component
         }
 
         if ($this->logging !== false && $this->_logger === null) {
-            if (
-                !isset($this->logging['connection']) || empty($this->logging['connection']) ||
+            if (!isset($this->logging['connection']) || empty($this->logging['connection']) ||
                 (is_array($this->logging['connection']) && count($this->logging['connection']) === 0)
             ) {
                 throw new InvalidConfigException('For logging, you must have to provide db connection.');
@@ -38,13 +37,13 @@ class Gateway extends Component
             }
             $this->_logger = \Yii::createObject($this->logging);
         }
-
     }
 
     public function process(string $gatewayName, string $paymentReference): Response
     {
         /** ProviderInterface $selectedProvider */
         $selectedProvider = \Yii::createObject($this->providers[$gatewayName]);
+        $response = null;
 
         try {
             $response = $selectedProvider->process($paymentReference);
@@ -74,9 +73,8 @@ class Gateway extends Component
                     'raw' => $response->getRaw()
                 ]);
             }
-            throw new BadGateway($e->getMessage(), $e->getCode());
+            throw new BadGateway($e->getMessage(), (int)$e->getCode());
         }
-
     }
 
     public function getLogger()
@@ -87,5 +85,4 @@ class Gateway extends Component
 
         return false;
     }
-
 }
