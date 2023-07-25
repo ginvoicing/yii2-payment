@@ -53,7 +53,7 @@ class Gateway extends Component
              var_dump("Status:", $response->getStatus());
              var_dump("Instance:", get_class($selectedProvider));
              var_dump("Logger:", $this->_logger);
-             var_dump("Logger Instance:", get_class($this->_logger));
+             var_dump("Logger Instance:", $this->_logger instanceof LoggerInterface);
             if ($this->logging !== false && $this->_logger instanceof LoggerInterface && $response->getStatus() === Status::SUCCESS) {
           
                 $this->_logger->setRecord([
