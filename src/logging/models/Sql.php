@@ -19,7 +19,7 @@ class Sql extends ActiveRecord
     {
         return [
             [['payment_id', 'currency', 'status', 'raw', 'provider'], 'required'],
-            // [['response_id'], 'string', 'max' => 40],
+            [['payment_id'], 'string', 'max' => 40],
             [['phone'], 'string', 'max' => 25],
             [['amount'], 'number'],
             [['provider'], 'string', 'max' => 50]
