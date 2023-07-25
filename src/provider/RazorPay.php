@@ -32,12 +32,12 @@ class RazorPay extends Base implements ProviderInterface
             $responseObject->setContactPhone($razorPayResponse->contact);
             $responseObject->setStatus(Status::SUCCESS->value);
         } catch (\Exception $e) {
-            $responseObject->setRaw(json_encode($razorPayResponse?->toArray()));
-            $responseObject->setPaymentId(null);
-            $responseObject->setAmount(0);
-            $responseObject->setCurrency(null);
-            $responseObject->setContactEmail($razorPayResponse?->email);
-            $responseObject->setContactPhone($razorPayResponse?->contact);
+            // $responseObject->setRaw(json_encode($razorPayResponse?->toArray()));
+            // $responseObject->setPaymentId(null);
+            // $responseObject->setAmount(0);
+            // $responseObject->setCurrency(null);
+            // $responseObject->setContactEmail($razorPayResponse?->email);
+            // $responseObject->setContactPhone($razorPayResponse?->contact);
             $responseObject->setStatus(Status::FAILED->value);
             throw new BadGateway($e->getMessage(), (int)$e->getCode());
         }
