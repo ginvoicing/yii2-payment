@@ -39,7 +39,7 @@ class RazorPay extends Base implements ProviderInterface
             // $responseObject->setContactEmail($razorPayResponse->email);
             // $responseObject->setContactPhone($razorPayResponse->contact);
             $responseObject->setStatus(Status::FAILED->value);
-            throw new BadGateway($e->getMessage(), $e->getCode());
+            throw new BadGateway($e->getMessage(), (int)$e->getCode());
         }
         return $responseObject;
     }
