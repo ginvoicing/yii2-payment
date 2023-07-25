@@ -2,104 +2,104 @@
 
 namespace yii\payment;
 
-use yii\payment\enum\Status;
-use \DateTime;
-use yii\payment\provider\RazorPay;
-
 final class Response
 {
 
-    private null|string $raw = null;
-    private string $paymentId;
-    private int $amount;
-    private string $currency;
-    private string $contactEmail;
-    private string $contactPhone;
-    private RazorPay $provider;
-
-    // public function __construct()
-    // {
-    //     $this
-    //         ->setStatus(Status::PENDING())
-    //         ->setRaw('{"status":"ERROR", "message":"Connectivity problem."}');
-    // }
+    private null|string $_raw = null;
+    private null|string $_paymentId;
+    private int $_amount = 0;
+    private null|string $_currency;
+    private string $_contactEmail;
+    private string $_contactPhone;
+    private string $_provider;
+    private string $_status;
 
 
-
-    public function getRaw(): string
+    public function getRaw(): null|string
     {
-        return $this->raw;
+        return $this->_raw;
     }
 
-    public function setRaw(string $raw): Response
+    public function setRaw(null|string $raw): Response
     {
-        $this->raw = $raw;
+        $this->_raw = $raw;
         return $this;
     }
 
-    public function getPaymentId(): string
+    public function getPaymentId(): null|string
     {
-        return $this->paymentId;
+        return $this->_paymentId;
     }
 
-    public function setPaymentId(string $paymentId): Response
+    public function setPaymentId(null|string $paymentId): Response
     {
-        $this->paymentId = $paymentId;
+        $this->_paymentId = $paymentId;
         return $this;
     }
 
     public function getAmount(): int
     {
-        return $this->amount;
+        return $this->_amount;
     }
 
     public function setAmount(int $amount): Response
     {
-        $this->amount = $amount;
+        $this->_amount = $amount;
         return $this;
     }
 
-    public function getCurrency(): string
+    public function getCurrency(): null|string
     {
-        return $this->currency;
+        return $this->_currency;
     }
 
-    public function setCurrency(string $currency): Response
+    public function setCurrency(null|string $currency): Response
     {
-        $this->currency = $currency;
+        $this->_currency = $currency;
         return $this;
     }
 
     public function getContactEmail(): string
     {
-        return $this->contactEmail;
+        return $this->_contactEmail;
     }
 
     public function setContactEmail(string $contactEmail): Response
     {
-        $this->contactEmail = $contactEmail;
+        $this->_contactEmail = $contactEmail;
         return $this;
     }
 
     public function getContactPhone(): string
     {
-        return $this->contactPhone;
+        return $this->_contactPhone;
     }
 
     public function setContactPhone(string $contactPhone): Response
     {
-        $this->contactPhone = $contactPhone;
+        $this->_contactPhone = $contactPhone;
         return $this;
     }
 
-    public function setProvider(RazorPay $provider): Response
+    public function setProvider(string $provider): Response
     {
-        $this->provider = $provider;
+        $this->_provider = $provider;
         return $this;
     }
 
-    public function getProvider(): RazorPay
+    public function getProvider(): string
     {
-        return $this->provider;
+        return $this->_provider;
+    }
+
+    public function setStatus(string $status): Response
+    {
+        $this->_status = $status;
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->_status;
     }
 }

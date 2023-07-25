@@ -8,10 +8,10 @@
 
 namespace yii\payment\exceptions;
 
-class BadGatewayException extends Exception
+class BadGateway extends Exception
 {
     public function getName(): string
     {
-        return 'Bad SMS Gateway Exception';
+        return 'Bad gateway';
     }
 }

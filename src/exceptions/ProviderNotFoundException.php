@@ -12,6 +12,6 @@ class ProviderNotFoundException extends Exception
 {
     public function getName(): string
     {
-        return 'Provider Not Found Exception';
+        return 'Provider Not Found';
     }
 }
