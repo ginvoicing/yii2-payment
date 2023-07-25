@@ -61,7 +61,6 @@ class Gateway extends Component
             }
             return $response;
         } catch (BadGateway $e) {
-            var_dump($response);
             if ($this->logging !== false && $this->_logger instanceof LoggerInterface) {
                 $this->_logger->setRecord([
                     'payment_id' => $response?->getPaymentId(),
