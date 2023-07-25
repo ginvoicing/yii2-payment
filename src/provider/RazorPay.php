@@ -32,6 +32,7 @@ class RazorPay extends Base implements ProviderInterface
             $responseObject->setContactPhone($razorPayResponse->contact);
             $responseObject->setStatus(Status::SUCCESS->value);
         } catch (\Exception $e) {
+            var_dump($razorPayResponse);
             $responseObject->setRaw(json_encode($razorPayResponse?->toArray()));
             $responseObject->setPaymentId(null);
             $responseObject->setAmount(0);
