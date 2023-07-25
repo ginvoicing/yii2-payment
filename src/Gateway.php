@@ -6,6 +6,7 @@ use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\payment\enum\Status;
 use yii\payment\exceptions\BadGateway;
+use yii\payment\logging\Logger;
 use yii\payment\logging\LoggerInterface;
 
 class Gateway extends Component
