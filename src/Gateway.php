@@ -49,6 +49,9 @@ class Gateway extends Component
         try {
             $response = $selectedProvider->process($paymentReference);
              // Output the values for debugging purposes
+             print_r($this->logging !== false);
+             print_r($this->_logger instanceof LoggerInterface);
+             print_r($response->getStatus() === Status::SUCCESS);
              var_dump("Logging:", $this->logging);
              var_dump("Status:", $response->getStatus());
              var_dump("Instance:", get_class($selectedProvider));
