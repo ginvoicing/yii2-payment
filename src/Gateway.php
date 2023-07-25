@@ -63,14 +63,14 @@ class Gateway extends Component
         } catch (BadGateway $e) {
             if ($this->logging !== false && $this->_logger instanceof LoggerInterface) {
                 $this->_logger->setRecord([
-                    'payment_id' => $response->getPaymentId(),
-                    'phone' => $response->getContactPhone(),
-                    'email' => $response->getContactEmail(),
-                    'amount' => $response->getAmount(),
-                    'currency' => $response->getCurrency(),
-                    'status' => $response->getStatus(),
+                    'payment_id' => $response?->getPaymentId(),
+                    'phone' => $response?->getContactPhone(),
+                    'email' => $response?->getContactEmail(),
+                    'amount' => $response?->getAmount(),
+                    'currency' => $response?->getCurrency(),
+                    'status' => $response?->getStatus(),
                     'provider' => get_class($selectedProvider),
-                    'raw' => $response->getRaw()
+                    'raw' => $response?->getRaw()
                 ]);
             }
             throw new BadGateway($e->getMessage(), (int)$e->getCode());
