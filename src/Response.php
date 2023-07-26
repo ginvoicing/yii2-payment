@@ -5,7 +5,7 @@ namespace yii\payment;
 final class Response
 {
 
-    private null|string $_raw = null;
+    private null|array $_raw = null;
     private null|string $_paymentId;
     private int $_amount = 0;
     private null|string $_currency;
@@ -16,12 +16,17 @@ final class Response
     private string|null $_error = null;
 
 
-    public function getRaw(): null|string
+    public function getRaw(): null|array
     {
         return $this->_raw;
     }
 
-    public function setRaw(string $raw): Response
+    public function getEncodedRaw(): string
+    {
+        return json_encode($this->_raw);
+    }
+
+    public function setRaw(array $raw): Response
     {
         $this->_raw = $raw;
         return $this;

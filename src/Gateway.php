@@ -56,7 +56,7 @@ class Gateway extends Component
                     'currency' => $response->getCurrency(),
                     'status' => $response->getStatus(),
                     'provider' => get_class($selectedProvider),
-                    'raw' => $response->getRaw()
+                    'raw' => $response->getEncodedRaw()
                 ]);
             }
             return $response;
@@ -71,7 +71,7 @@ class Gateway extends Component
                     'currency' => $response->getCurrency(),
                     'status' => $response->getStatus(),
                     'provider' => get_class($selectedProvider),
-                    'raw' => $response->getRaw()
+                    'raw' => $response->getEncodedRaw()
                 ]);
             }
             throw new BadGateway($response->getError());

@@ -22,7 +22,7 @@ class RazorPay extends Base implements ProviderInterface
         $razorPayApiCall = new Api($this->apiKey, $this->apiSecret);
         $razorPayResponse = $razorPayApiCall->payment->fetch($paymentReference);
 
-        $responseObject->setRaw(json_encode($razorPayResponse->toArray()));
+        $responseObject->setRaw($razorPayResponse->toArray());
         $responseObject->setPaymentId($razorPayResponse->id);
         $responseObject->setAmount($razorPayResponse->amount);
         $responseObject->setCurrency($razorPayResponse->currency);
