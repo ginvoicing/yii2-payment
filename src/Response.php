@@ -13,6 +13,7 @@ final class Response
     private string $_contactPhone;
     private string $_provider;
     private string $_status;
+    private string|null $_error = null;
 
 
     public function getRaw(): null|string
@@ -20,7 +21,7 @@ final class Response
         return $this->_raw;
     }
 
-    public function setRaw(null|string $raw): Response
+    public function setRaw(string $raw): Response
     {
         $this->_raw = $raw;
         return $this;
@@ -31,7 +32,7 @@ final class Response
         return $this->_paymentId;
     }
 
-    public function setPaymentId(null|string $paymentId): Response
+    public function setPaymentId(string $paymentId): Response
     {
         $this->_paymentId = $paymentId;
         return $this;
@@ -53,7 +54,7 @@ final class Response
         return $this->_currency;
     }
 
-    public function setCurrency(null|string $currency): Response
+    public function setCurrency(string $currency): Response
     {
         $this->_currency = $currency;
         return $this;
@@ -101,5 +102,16 @@ final class Response
     public function getStatus(): string
     {
         return $this->_status;
+    }
+
+    public function setError(string $error): Response
+    {
+        $this->_error = $error;
+        return $this;
+    }
+
+    public function getError(): string|null
+    {
+        return $this->_error;
     }
 }
