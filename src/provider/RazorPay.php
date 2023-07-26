@@ -30,7 +30,7 @@ class RazorPay extends Base implements ProviderInterface
             $responseObject->setCurrency($razorPayResponse->currency);
             $responseObject->setContactEmail($razorPayResponse->email);
             $responseObject->setContactPhone($razorPayResponse->contact);
-            $responseObject->setStatus(Status::SUCCESS->value);
+            $responseObject->setStatus($razorPayResponse->status === 'authorized' ? Status::SUCCESS->value : Status::FAILED->value);
         } catch (\Exception $e) {
             $responseObject->setRaw(json_encode($razorPayResponse?->toArray()));
             $responseObject->setPaymentId(null);
