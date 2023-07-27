@@ -26,7 +26,7 @@ class M321203203317PaymentLogger extends \yii\db\Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
         $this->createTable($this->tableName, [
-            'id' => $this->primaryKey()->unsigned()->notNull(),
+            'id' => $this->primaryKey()->notNull(),
             'payment_id' => $this->string(100)->notNull(),
             'phone' => $this->string(25)->null(),
             'email' => $this->string(50)->null(),
@@ -35,8 +35,8 @@ class M321203203317PaymentLogger extends \yii\db\Migration
             'status' => $this->string(20)->notNull(),
             'raw' => $this->text()->notNull(),
             'provider' => $this->string(100)->notNull(),
-            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE NOW()'),
-            'created_at' => $this->timestamp()->defaultExpression('NOW()')
+            'updated_at' => $this->timestamp(),
+            'created_at' => $this->timestamp()
         ], $tableOptions);
         return true;
     }

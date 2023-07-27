@@ -10,13 +10,12 @@ class RazorPayTest extends Codeception\Test\Unit
 
     protected function _before(): void
     {
-        Yii::$app->get('db', )->dsn = 'mysql:host=127.0.0.1;port=' . $_ENV['MYSQL_PORT'] . ';dbname=paymentdb';
-        $this->successPaymentId = $_ENV['SUCCESS_PAYMENT_ID'];
-        $this->failedPaymentId = $_ENV['FAILED_PAYMENT_ID'];
+        $this->successPaymentId = 'pay_MITTVL303shOGj';
+        $this->failedPaymentId = 'pay_MIT87ZiiC3lmNd';
         parent::_before();
     }
 
-    public function testMysqlConnection()
+    public function testDBMigration()
     {
         \Yii::$app->runAction('migrate/up', [
             'interactive' => 0

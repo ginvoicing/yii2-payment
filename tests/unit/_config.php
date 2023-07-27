@@ -17,10 +17,7 @@ return [
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
-            'dsn' => 'mysql:host=127.0.0.1;port:3306;dbname=paymentdb',
-            'username' => 'paymentuser',
-            'password' => 'password',
-            'charset' => 'utf8'
+            'dsn' => 'sqlite:' . codecept_output_dir('/db.sqlite')
         ],
         'payment' => [
             'class' => \yii\payment\Gateway::class,
