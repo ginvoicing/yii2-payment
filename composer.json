@@ -60,13 +60,5 @@
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ],
-    "scripts": {
-        "post-install-cmd": [
-            "([ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/phpcs --config-set installed_paths ../../yiisoft/yii2-coding-standards/)"
-        ],
-        "post-update-cmd": [
-            "([ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/phpcs --config-set installed_paths ../../yiisoft/yii2-coding-standards/)"
-        ]
-    }
+    ]
 }
