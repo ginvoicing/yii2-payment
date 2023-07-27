@@ -35,8 +35,11 @@ class M321203203317PaymentLogger extends \yii\db\Migration
             'status' => $this->string(20)->notNull(),
             'raw' => $this->text()->notNull(),
             'provider' => $this->string(100)->notNull(),
-            'updated_at' => $this->timestamp(),
-            'created_at' => $this->timestamp()
+            'updated_at' => ($this->db->driverName === 'mysql') ?
+            $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP')->append('ON UPDATE NOW()') :
+            $this->timestamp(),
+            'created_at' => ($this->db->driverName === 'mysql') ? $this->timestamp()->defaultExpression('NOW()') :
+            $this->timestamp()
         ], $tableOptions);
         return true;
     }
