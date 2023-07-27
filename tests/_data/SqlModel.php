@@ -8,19 +8,22 @@ class SqlModel extends ActiveRecord
 {
     public static function getDb()
     {
-        return \Yii::$app->swiftsmser->getLogger()->getConnection();
+        return \Yii::$app->payment->getLogger()->getConnection();
     }
 
     public static function tableName()
     {
-        return \Yii::$app->swiftsmser->getLogger()->getTableName();
+        return \Yii::$app->payment->getLogger()->getTableName();
     }
 
     public function rules()
     {
         return [
-            [['timeline', 'base_currency', 'exchange_rates', 'provider'], 'required'],
-            [['provider'], 'string', 'max' => 100]
+            [['payment_id', 'currency', 'status', 'raw', 'provider'], 'required'],
+            [['payment_id'], 'string', 'max' => 40],
+            [['phone'], 'string', 'max' => 25],
+            [['amount'], 'number'],
+            [['provider'], 'string', 'max' => 50]
         ];
     }
 }

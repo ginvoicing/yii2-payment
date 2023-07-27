@@ -1,9 +1,9 @@
 up: clean
 	docker-compose up -d
 dbssh:
-	docker-compose exec SwiftCurrencyDb /bin/bash
+	docker-compose exec PaymentDb /bin/bash
 db:
-	docker-compose exec SwiftCurrencyDb /usr/bin/mysql -u currencyuser -ppassword -h 127.0.0.1 currencydb
+	docker-compose exec PaymentDb /usr/bin/mysql -u paymentuser -ppassword -h 127.0.0.1 paymentdb
 down:
 	docker-compose stop
 clean:

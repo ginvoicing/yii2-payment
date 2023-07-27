@@ -4,8 +4,7 @@ namespace yii\payment;
 
 use yii\base\Component;
 use yii\base\InvalidConfigException;
-use yii\payment\enum\Status;
-use yii\payment\exceptions\BadGateway;
+use yii\payment\exceptions\BadRequest;
 use yii\payment\logging\Logger;
 use yii\payment\logging\LoggerInterface;
 
@@ -27,8 +26,7 @@ class Gateway extends Component
         }
 
         if ($this->logging !== false && $this->_logger === null) {
-            if (
-                !isset($this->logging['connection']) || empty($this->logging['connection']) ||
+            if (!isset($this->logging['connection']) || empty($this->logging['connection']) ||
                 (is_array($this->logging['connection']) && count((array) $this->logging['connection']) === 0)
             ) {
                 throw new InvalidConfigException('For logging, you must have to provide db connection.');
@@ -60,7 +58,7 @@ class Gateway extends Component
                 ]);
             }
             return $response;
-        } catch (BadGateway $e) {
+        } catch (BadRequest $e) {
             if ($this->logging !== false && $this->_logger instanceof LoggerInterface) {
                 $response = unserialize($e->getMessage());
                 $this->_logger->setRecord([
@@ -74,7 +72,7 @@ class Gateway extends Component
                     'raw' => $response->getEncodedRaw()
                 ]);
             }
-            throw new BadGateway($response->getError());
+            throw new BadRequest($response->getError());
         }
     }
 

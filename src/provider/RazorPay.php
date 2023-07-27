@@ -3,7 +3,7 @@
 namespace yii\payment\provider;
 
 use yii\payment\enum\Status;
-use yii\payment\exceptions\BadGateway;
+use yii\payment\exceptions\BadRequest;
 use yii\payment\ProviderInterface;
 use yii\payment\Response;
 use Razorpay\Api\Api;
@@ -31,7 +31,7 @@ class RazorPay extends Base implements ProviderInterface
         $responseObject->setStatus($razorPayResponse->status === 'authorized' ? Status::SUCCESS->value : Status::FAILED->value);
         if (strtoupper($razorPayResponse->status) === Status::FAILED->value) {
             $responseObject->setError($razorPayResponse->error_description);
-            throw new BadGateway(serialize($responseObject));
+            throw new BadRequest(serialize($responseObject));
         }
         return $responseObject;
     }

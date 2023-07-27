@@ -1,6 +1,6 @@
 <?php
 return [
-    'id' => 'swift-currency-tests',
+    'id' => 'payment-tests',
     'class' => \yii\console\Application::class,
     'basePath' => \Yii::getAlias('@tests'),
     'runtimePath' => \Yii::getAlias('@tests/_output'),
@@ -17,10 +17,24 @@ return [
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
-            'dsn' => 'mysql:host=127.0.0.1;port:3306;dbname=currencydb',
-            'username' => 'currencyuser',
+            'dsn' => 'mysql:host=127.0.0.1;port:3306;dbname=paymentdb',
+            'username' => 'paymentuser',
             'password' => 'password',
             'charset' => 'utf8'
+        ],
+        'payment' => [
+            'class' => \yii\payment\Gateway::class,
+            'logging' => [
+                'connection' => 'db',
+                'tableName' => 'ginni_payment_logs'
+            ],
+            'providers' => [
+                'razorpay' => [
+                    'class' => \yii\payment\provider\RazorPay::class,
+                    'apiKey' => $_ENV['RAZORPAY_API_KEY'],
+                    'apiSecret' => $_ENV['RAZORPAY_API_SECRET']
+                ]
+            ]
         ],
         'log' => [
             'targets' => [

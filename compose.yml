@@ -1,13 +1,13 @@
 version: "3.3"
 
 services:
-    SwiftCurrencyDb:
-        image: mariadb:10.4-focal
-        container_name: SwiftCurrencyCtnr
+    PaymentDb:
+        image: mariadb:10.5-focal
+        container_name: PaymentCtnr
         ports:
             - ${MYSQL_PORT}:3306
         labels:
-            - swiftcurrency-db
+            - payment-db
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
