@@ -22,14 +22,14 @@ class Gateway extends Component
     {
         parent::init();
 
-        if (!$this->providers) {
+        if (count($this->providers) === 0) {
             throw new InvalidConfigException('Property "providers" is mandatory for payment component.');
         }
 
         if ($this->logging !== false && $this->_logger === null) {
             if (
                 !isset($this->logging['connection']) || empty($this->logging['connection']) ||
-                (is_array($this->logging['connection']) && count($this->logging['connection']) === 0)
+                (is_array($this->logging['connection']) && count((array) $this->logging['connection']) === 0)
             ) {
                 throw new InvalidConfigException('For logging, you must have to provide db connection.');
             }
