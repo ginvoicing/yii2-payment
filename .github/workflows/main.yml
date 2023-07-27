@@ -3,31 +3,34 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
+    tests:
+        runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        php: [8.0, 8.1, 8.2]
+        strategy:
+            matrix:
+                php: [8.0, 8.1, 8.2]
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php }}
-        extensions: pdo, sqlite, imagick
-        coverage: none
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions: pdo, sqlite, imagick
+                  coverage: none
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate
+            - name: Validate composer.json and composer.lock
+              run: composer validate
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-interaction --no-suggest
+            - name: Install dependencies
+              run: composer install --prefer-dist --no-progress --no-interaction --no-suggest
 
-    - name: Run test suite
-      run: |
-        php vendor/bin/codecept build
-        php vendor/bin/codecept run
+            - name: Run test suite
+              env:
+                  RAZORPAY_API_KEY: ${{ secrets.RAZORPAY_API_KEY }}
+                  RAZORPAY_API_SECRET: ${{ secrets.RAZORPAY_API_SECRET }}
+              run: |
+                  php vendor/bin/codecept build
+                  php vendor/bin/codecept run
