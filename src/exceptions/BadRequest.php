@@ -1,7 +1,7 @@
 <?php
 namespace yii\payment\exceptions;
 
-class BadRequest extends Exception
+class BadRequest extends \yii\base\Exception
 {
     public function getName(): string
     {

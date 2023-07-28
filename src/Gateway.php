@@ -4,7 +4,9 @@ namespace yii\payment;
 
 use yii\base\Component;
 use yii\base\InvalidConfigException;
+use yii\payment\exceptions\BadPaymentGateway;
 use yii\payment\exceptions\BadRequest;
+use yii\payment\exceptions\ProviderNotFound;
 use yii\payment\logging\Logger;
 use yii\payment\logging\LoggerInterface;
 
@@ -41,6 +43,17 @@ class Gateway extends Component
     public function process(string $gatewayName, string $paymentReference): Response
     {
         /** ProviderInterface $selectedProvider */
+
+        if (!isset($this->providers[$gatewayName])) {
+            throw new ProviderNotFound("Payment gatway \"$gatewayName\" does not exist in providers settings.");
+        }
+
+        if (!isset($this->providers[$gatewayName]['apiKey']) &&
+            !isset($this->providers[$gatewayName]['apiSecret'])
+        ) {
+            throw new InvalidConfigException("apiKey and apiSecret are required parameter of \"$gatewayName\" provider.");
+        }
+
         $selectedProvider = \Yii::createObject($this->providers[$gatewayName]);
 
         try {

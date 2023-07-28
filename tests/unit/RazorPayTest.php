@@ -5,13 +5,11 @@ use yii\payment\Response;
 class RazorPayTest extends Codeception\Test\Unit
 {
     use \Codeception\AssertThrows;
-    private string $successPaymentId;
-    private string $failedPaymentId;
+    private string $successPaymentId = 'pay_MIj1KqWnQh5n2C';
+    private string $failedPaymentId = 'pay_MIjGN36C6sUrXi';
 
     protected function _before(): void
     {
-        $this->successPaymentId = 'pay_MITTVL303shOGj';
-        $this->failedPaymentId = 'pay_MIT87ZiiC3lmNd';
         parent::_before();
     }
 

@@ -28,8 +28,8 @@ return [
             'providers' => [
                 'razorpay' => [
                     'class' => \yii\payment\provider\RazorPay::class,
-                    'apiKey' => $_ENV['RAZORPAY_API_KEY'],
-                    'apiSecret' => $_ENV['RAZORPAY_API_SECRET']
+                    'apiKey' => getenv('RAZORPAY_API_KEY'),
+                    'apiSecret' => getenv('RAZORPAY_API_SECRET')
                 ]
             ]
         ],
