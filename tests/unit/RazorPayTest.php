@@ -1,5 +1,6 @@
 <?php
 use yii\payment\enum\Status;
+use yii\payment\exceptions\InvalidProviderConfig;
 use yii\payment\Response;
 
 class RazorPayTest extends Codeception\Test\Unit
@@ -32,6 +33,32 @@ class RazorPayTest extends Codeception\Test\Unit
     {
         $this->assertThrows(\yii\payment\exceptions\BadRequest::class, function () {
             \YII::$app->payment->process('razorpay', $this->failedPaymentId);
+        });
+    }
+
+    public function testUnknownPaymentProvider()
+    {
+        $this->assertThrows(\yii\payment\exceptions\ProviderNotFound::class, function () {
+            \YII::$app->payment->process('unknown', $this->failedPaymentId);
+        });
+    }
+
+    public function testInvalidConfigurationOfProvider()
+    {
+        $this->assertThrows(InvalidProviderConfig::class, function () {
+            \Yii::$app->set('payment', [
+                'class' => \yii\payment\Gateway::class,
+                'logging' => [
+                    'connection' => 'db',
+                    'tableName' => 'ginni_payment_logs'
+                ],
+                'providers' => [
+                    'unknown' => [
+                        'class' => \yii\payment\provider\RazorPay::class
+                    ]
+                ]
+            ]);
+            \YII::$app->payment->process('unknown', $this->failedPaymentId);
         });
     }
 }

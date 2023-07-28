@@ -4,8 +4,8 @@ namespace yii\payment;
 
 use yii\base\Component;
 use yii\base\InvalidConfigException;
-use yii\payment\exceptions\BadPaymentGateway;
 use yii\payment\exceptions\BadRequest;
+use yii\payment\exceptions\InvalidProviderConfig;
 use yii\payment\exceptions\ProviderNotFound;
 use yii\payment\logging\Logger;
 use yii\payment\logging\LoggerInterface;
@@ -14,7 +14,9 @@ class Gateway extends Component
 {
     public array $providers = [];
 
-    /** @var bool If you want to enable logging while success and failure of the payment. logging = ['connection' => 'db'] */
+    /**
+     * @var bool If you want to enable logging while success and failure of the payment. logging = ['connection' => 'db']
+     */
     public false|array $logging = false;
     private LoggerInterface|null $_logger = null;
 
@@ -28,8 +30,8 @@ class Gateway extends Component
         }
 
         if ($this->logging !== false && $this->_logger === null) {
-            if (!isset($this->logging['connection']) || empty($this->logging['connection']) ||
-                (is_array($this->logging['connection']) && count((array) $this->logging['connection']) === 0)
+            if (!isset($this->logging['connection']) || empty($this->logging['connection'])
+                || (is_array($this->logging['connection']) && count((array) $this->logging['connection']) === 0)
             ) {
                 throw new InvalidConfigException('For logging, you must have to provide db connection.');
             }
@@ -42,16 +44,18 @@ class Gateway extends Component
 
     public function process(string $gatewayName, string $paymentReference): Response
     {
-        /** ProviderInterface $selectedProvider */
+        /**
+ * ProviderInterface $selectedProvider
+*/
 
         if (!isset($this->providers[$gatewayName])) {
             throw new ProviderNotFound("Payment gatway \"$gatewayName\" does not exist in providers settings.");
         }
 
-        if (!isset($this->providers[$gatewayName]['apiKey']) &&
-            !isset($this->providers[$gatewayName]['apiSecret'])
+        if (!isset($this->providers[$gatewayName]['apiKey'])
+            && !isset($this->providers[$gatewayName]['apiSecret'])
         ) {
-            throw new InvalidConfigException("apiKey and apiSecret are required parameter of \"$gatewayName\" provider.");
+            throw new InvalidProviderConfig("apiKey and apiSecret are required parameter of \"$gatewayName\" provider.");
         }
 
         $selectedProvider = \Yii::createObject($this->providers[$gatewayName]);
@@ -59,7 +63,8 @@ class Gateway extends Component
         try {
             $response = $selectedProvider->process($paymentReference);
             if ($this->logging !== false && $this->_logger instanceof LoggerInterface) {
-                $this->_logger->setRecord([
+                $this->_logger->setRecord(
+                    [
                     'payment_id' => $response->getPaymentId(),
                     'phone' => $response->getContactPhone(),
                     'email' => $response->getContactEmail(),
@@ -68,13 +73,15 @@ class Gateway extends Component
                     'status' => $response->getStatus(),
                     'provider' => get_class($selectedProvider),
                     'raw' => $response->getEncodedRaw()
-                ]);
+                    ]
+                );
             }
             return $response;
         } catch (BadRequest $e) {
             if ($this->logging !== false && $this->_logger instanceof LoggerInterface) {
                 $response = unserialize($e->getMessage());
-                $this->_logger->setRecord([
+                $this->_logger->setRecord(
+                    [
                     'payment_id' => $response->getPaymentId(),
                     'phone' => $response->getContactPhone(),
                     'email' => $response->getContactEmail(),
@@ -83,7 +90,8 @@ class Gateway extends Component
                     'status' => $response->getStatus(),
                     'provider' => get_class($selectedProvider),
                     'raw' => $response->getEncodedRaw()
-                ]);
+                    ]
+                );
             }
             throw new BadRequest($response->getError());
         }
