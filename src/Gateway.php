@@ -45,8 +45,8 @@ class Gateway extends Component
     public function process(string $gatewayName, string $paymentReference, array $apiCredentials = []): Response
     {
         /**
- * ProviderInterface $selectedProvider
-*/
+         * ProviderInterface $selectedProvider
+         */
 
         if (!isset($this->providers[$gatewayName])) {
             throw new ProviderNotFound("Payment gatway \"$gatewayName\" does not exist in providers settings.");
@@ -65,14 +65,14 @@ class Gateway extends Component
             if ($this->logging !== false && $this->_logger instanceof LoggerInterface) {
                 $this->_logger->setRecord(
                     [
-                    'payment_id' => $response->getPaymentId(),
-                    'phone' => $response->getContactPhone(),
-                    'email' => $response->getContactEmail(),
-                    'amount' => $response->getAmount(),
-                    'currency' => $response->getCurrency(),
-                    'status' => $response->getStatus(),
-                    'provider' => get_class($selectedProvider),
-                    'raw' => $response->getEncodedRaw()
+                        'payment_id' => $response->getPaymentId(),
+                        'phone' => $response->getContactPhone(),
+                        'email' => $response->getContactEmail(),
+                        'amount' => $response->getAmount(),
+                        'currency' => $response->getCurrency(),
+                        'status' => $response->getStatus(),
+                        'provider' => get_class($selectedProvider),
+                        'raw' => $response->getEncodedRaw()
                     ]
                 );
             }
@@ -82,14 +82,14 @@ class Gateway extends Component
                 $response = unserialize($e->getMessage());
                 $this->_logger->setRecord(
                     [
-                    'payment_id' => $response->getPaymentId(),
-                    'phone' => $response->getContactPhone(),
-                    'email' => $response->getContactEmail(),
-                    'amount' => $response->getAmount(),
-                    'currency' => $response->getCurrency(),
-                    'status' => $response->getStatus(),
-                    'provider' => get_class($selectedProvider),
-                    'raw' => $response->getEncodedRaw()
+                        'payment_id' => $response->getPaymentId(),
+                        'phone' => $response->getContactPhone(),
+                        'email' => $response->getContactEmail(),
+                        'amount' => $response->getAmount(),
+                        'currency' => $response->getCurrency(),
+                        'status' => $response->getStatus(),
+                        'provider' => get_class($selectedProvider),
+                        'raw' => $response->getEncodedRaw()
                     ]
                 );
             }
