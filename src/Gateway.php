@@ -42,7 +42,7 @@ class Gateway extends Component
         }
     }
 
-    public function process(string $gatewayName, string $paymentReference): Response
+    public function process(string $gatewayName, string $paymentReference, array $apiCredentials = []): Response
     {
         /**
  * ProviderInterface $selectedProvider
@@ -61,7 +61,7 @@ class Gateway extends Component
         $selectedProvider = \Yii::createObject($this->providers[$gatewayName]);
 
         try {
-            $response = $selectedProvider->process($paymentReference);
+            $response = $selectedProvider->process($paymentReference, $apiCredentials);
             if ($this->logging !== false && $this->_logger instanceof LoggerInterface) {
                 $this->_logger->setRecord(
                     [
