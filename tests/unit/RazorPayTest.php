@@ -6,8 +6,8 @@ use yii\payment\Response;
 class RazorPayTest extends Codeception\Test\Unit
 {
     use \Codeception\AssertThrows;
-    private string $successPaymentId = 'pay_MIj1KqWnQh5n2C';
-    private string $failedPaymentId = 'pay_MIjGN36C6sUrXi';
+    private string $successPaymentId = 'pay_MVNt5SxhE7u8gz';
+    private string $failedPaymentId = 'pay_MUi95hlolc8upp';
 
     protected function _before(): void
     {
@@ -24,6 +24,7 @@ class RazorPayTest extends Codeception\Test\Unit
     public function testFetchPaymentBySuccesPaymentId()
     {
         $response = \YII::$app->payment->process('razorpay', $this->successPaymentId);
+        print_r($response);
         $this->assertTrue($response instanceof Response);
         $this->assertTrue($response->getPaymentId() === $this->successPaymentId);
         $this->assertTrue($response->getStatus() === Status::SUCCESS->value);
