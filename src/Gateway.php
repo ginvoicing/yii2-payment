@@ -70,7 +70,7 @@ class Gateway extends Component
         }
 
         try {
-            $response = $selectedProvider->process($paymentReference, $apiCredentials);
+            $response = $selectedProvider->process($paymentReference);
             if ($this->logging !== false && $this->_logger instanceof LoggerInterface) {
                 $this->_logger->setRecord(
                     [
@@ -80,7 +80,7 @@ class Gateway extends Component
                         'amount' => $response->getAmount(),
                         'currency' => $response->getCurrency(),
                         'status' => $response->getStatus(),
-                        'provider' => get_class($selectedProvider),
+                        'provider' => $response->getProvider(),
                         'raw' => $response->getEncodedRaw()
                     ]
                 );
@@ -97,7 +97,7 @@ class Gateway extends Component
                         'amount' => $response->getAmount(),
                         'currency' => $response->getCurrency(),
                         'status' => $response->getStatus(),
-                        'provider' => get_class($selectedProvider),
+                        'provider' => $response->getProvider(),
                         'raw' => $response->getEncodedRaw()
                     ]
                 );
@@ -114,9 +114,4 @@ class Gateway extends Component
 
         return false;
     }
-
-    // public function getSelectedProvider(): string
-    // {
-    //     return $this->_provider;
-    // }
 }

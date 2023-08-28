@@ -16,7 +16,7 @@ class RazorPay extends Base implements ProviderInterface
 
     ];
 
-    public function process(string $paymentReference, array $apiCredentials = []): Response
+    public function process(string $paymentReference): Response
     {
         $responseObject = new Response();
         $razorPayApiCall = new Api($this->apiKey, $this->apiSecret);
