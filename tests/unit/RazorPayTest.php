@@ -24,7 +24,6 @@ class RazorPayTest extends Codeception\Test\Unit
     public function testFetchPaymentBySuccesPaymentId()
     {
         $response = \YII::$app->payment->process('razorpay', $this->successPaymentId);
-        print_r($response);
         $this->assertTrue($response instanceof Response);
         $this->assertTrue($response->getPaymentId() === $this->successPaymentId);
         $this->assertTrue($response->getStatus() === Status::SUCCESS->value);
@@ -61,5 +60,11 @@ class RazorPayTest extends Codeception\Test\Unit
             ]);
             \YII::$app->payment->process('unknown', $this->failedPaymentId);
         });
+    }
+
+    public function testRazorPaySelectedPaymentGatewayProvider()
+    {
+        \YII::$app->payment->process('razorpay', $this->successPaymentId);
+        $this->assertTrue(\YII::$app->payment->selectedProvider === 'yii\payment\provider\RazorPay');
     }
 }
