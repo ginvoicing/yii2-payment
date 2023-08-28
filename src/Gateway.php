@@ -19,6 +19,7 @@ class Gateway extends Component
      */
     public false|array $logging = false;
     private LoggerInterface|null $_logger = null;
+    private string $_provider;
 
 
     public function init()
@@ -59,6 +60,7 @@ class Gateway extends Component
         }
 
         $selectedProvider = \Yii::createObject($this->providers[$gatewayName]);
+        $this->_provider = get_class($selectedProvider);
 
         try {
             $response = $selectedProvider->process($paymentReference, $apiCredentials);
@@ -71,7 +73,7 @@ class Gateway extends Component
                         'amount' => $response->getAmount(),
                         'currency' => $response->getCurrency(),
                         'status' => $response->getStatus(),
-                        'provider' => get_class($selectedProvider),
+                        'provider' => $this->_provider,
                         'raw' => $response->getEncodedRaw()
                     ]
                 );
@@ -88,7 +90,7 @@ class Gateway extends Component
                         'amount' => $response->getAmount(),
                         'currency' => $response->getCurrency(),
                         'status' => $response->getStatus(),
-                        'provider' => get_class($selectedProvider),
+                        'provider' => $this->_provider,
                         'raw' => $response->getEncodedRaw()
                     ]
                 );
@@ -97,12 +99,17 @@ class Gateway extends Component
         }
     }
 
-    public function getLogger()
+    public function getLogger(): LoggerInterface | false
     {
         if ($this->_logger instanceof LoggerInterface) {
             return $this->_logger;
         }
 
         return false;
+    }
+
+    public function getSelectedProvider(): string
+    {
+        return $this->_provider;
     }
 }
