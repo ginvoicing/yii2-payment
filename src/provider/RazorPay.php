@@ -19,9 +19,7 @@ class RazorPay extends Base implements ProviderInterface
     public function process(string $paymentReference, array $apiCredentials = []): Response
     {
         $responseObject = new Response();
-        $apiKey = $apiCredentials['api_key'] ?? $this->apiKey;
-        $apiSecret = $apiCredentials['api_secret'] ?? $this->apiSecret;
-        $razorPayApiCall = new Api($apiKey, $apiSecret);
+        $razorPayApiCall = new Api($this->apiKey, $this->apiSecret);
         $razorPayResponse = $razorPayApiCall->payment->fetch($paymentReference);
 
         $responseObject->setRaw($razorPayResponse->toArray());
@@ -30,6 +28,7 @@ class RazorPay extends Base implements ProviderInterface
         $responseObject->setCurrency($razorPayResponse->currency);
         $responseObject->setContactEmail($razorPayResponse->email);
         $responseObject->setContactPhone($razorPayResponse->contact);
+        $responseObject->setProvider(get_class($this));
         $responseObject->setStatus($razorPayResponse->status === 'authorized' ? Status::SUCCESS->value : Status::FAILED->value);
         if (strtoupper($razorPayResponse->status) === Status::FAILED->value) {
             $responseObject->setError($razorPayResponse->error_description);

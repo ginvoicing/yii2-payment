@@ -19,7 +19,6 @@ class Gateway extends Component
      */
     public false|array $logging = false;
     private LoggerInterface|null $_logger = null;
-    private string $_provider;
 
 
     public function init()
@@ -60,7 +59,15 @@ class Gateway extends Component
         }
 
         $selectedProvider = \Yii::createObject($this->providers[$gatewayName]);
-        $this->_provider = get_class($selectedProvider);
+
+        if (count($apiCredentials) && !(isset($apiCredentials['apiKey']) && isset($apiCredentials['apiSecret']))) {
+            throw new InvalidProviderConfig('Credentials apiKey & apiSecret are required.');
+        }
+
+        if (count($apiCredentials)) {
+            $selectedProvider->apiKey = $apiCredentials['apiKey'];
+            $selectedProvider->apiSecret = $apiCredentials['apiSecret'];
+        }
 
         try {
             $response = $selectedProvider->process($paymentReference, $apiCredentials);
@@ -73,7 +80,7 @@ class Gateway extends Component
                         'amount' => $response->getAmount(),
                         'currency' => $response->getCurrency(),
                         'status' => $response->getStatus(),
-                        'provider' => $this->_provider,
+                        'provider' => get_class($selectedProvider),
                         'raw' => $response->getEncodedRaw()
                     ]
                 );
@@ -90,7 +97,7 @@ class Gateway extends Component
                         'amount' => $response->getAmount(),
                         'currency' => $response->getCurrency(),
                         'status' => $response->getStatus(),
-                        'provider' => $this->_provider,
+                        'provider' => get_class($selectedProvider),
                         'raw' => $response->getEncodedRaw()
                     ]
                 );
@@ -108,8 +115,8 @@ class Gateway extends Component
         return false;
     }
 
-    public function getSelectedProvider(): string
-    {
-        return $this->_provider;
-    }
+    // public function getSelectedProvider(): string
+    // {
+    //     return $this->_provider;
+    // }
 }

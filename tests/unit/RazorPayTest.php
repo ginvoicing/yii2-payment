@@ -64,7 +64,18 @@ class RazorPayTest extends Codeception\Test\Unit
 
     public function testRazorPaySelectedPaymentGatewayProvider()
     {
-        \YII::$app->payment->process('razorpay', $this->successPaymentId);
-        $this->assertTrue(\YII::$app->payment->selectedProvider === 'yii\payment\provider\RazorPay');
+        $response = \YII::$app->payment->process('razorpay', $this->successPaymentId);
+        $this->assertTrue($response->getProvider() === 'yii\payment\provider\RazorPay');
+    }
+
+    public function testInvalidExternalCredentials()
+    {
+        $this->assertThrows(InvalidProviderConfig::class, function () {
+             \YII::$app->payment->process('razorpay', $this->successPaymentId,[
+                'apiSecret'=> null,
+                'apiKey'=> null
+            ]);
+        });
+
     }
 }
