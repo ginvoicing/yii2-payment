@@ -7,7 +7,7 @@ final class Response
 
     private null|array $_raw = null;
     private null|string $_paymentId;
-    private int $_amount = 0;
+    private float $_amount = 0;
     private null|string $_currency;
     private string $_contactEmail;
     private string $_contactPhone;
@@ -43,12 +43,12 @@ final class Response
         return $this;
     }
 
-    public function getAmount(): int
+    public function getAmount(): float
     {
         return $this->_amount;
     }
 
-    public function setAmount(int $amount): Response
+    public function setAmount(float $amount): Response
     {
         $this->_amount = $amount;
         return $this;
