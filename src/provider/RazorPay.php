@@ -26,7 +26,7 @@ class RazorPay extends Base implements ProviderInterface
         $responseObject->setPaymentId($razorPayResponse->id);
         $responseObject->setAmount($razorPayResponse->amount);
         $responseObject->setCurrency($razorPayResponse->currency);
-        $responseObject->setContactEmail($razorPayResponse->email);
+        $responseObject->setContactEmail(null);
         $responseObject->setContactPhone($razorPayResponse->contact);
         $responseObject->setProvider(get_class($this));
         $responseObject->setStatus($razorPayResponse->status === 'authorized' ? Status::SUCCESS->value : Status::FAILED->value);

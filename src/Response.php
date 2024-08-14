@@ -5,18 +5,18 @@ namespace yii\payment;
 final class Response
 {
 
-    private null|array $_raw = null;
-    private null|string $_paymentId;
+    private array $_raw = [];
+    private string $_paymentId;
     private float $_amount = 0;
     private null|string $_currency;
-    private string $_contactEmail;
+    private null|string $_contactEmail;
     private string $_contactPhone;
     private string $_provider;
     private string $_status;
     private string|null $_error = null;
 
 
-    public function getRaw(): null|array
+    public function getRaw(): array
     {
         return $this->_raw;
     }
@@ -32,7 +32,7 @@ final class Response
         return $this;
     }
 
-    public function getPaymentId(): null|string
+    public function getPaymentId(): string
     {
         return $this->_paymentId;
     }
@@ -59,7 +59,7 @@ final class Response
         return $this->_currency;
     }
 
-    public function setCurrency(string $currency): Response
+    public function setCurrency(null|string $currency): Response
     {
         $this->_currency = $currency;
         return $this;
