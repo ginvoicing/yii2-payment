@@ -65,12 +65,12 @@ final class Response
         return $this;
     }
 
-    public function getContactEmail(): string
+    public function getContactEmail(): null|string
     {
         return $this->_contactEmail;
     }
 
-    public function setContactEmail(string $contactEmail): Response
+    public function setContactEmail(null|string $contactEmail): Response
     {
         $this->_contactEmail = $contactEmail;
         return $this;

@@ -6,8 +6,8 @@ use yii\payment\Response;
 class RazorPayTest extends Codeception\Test\Unit
 {
     use \Codeception\AssertThrows;
-    private string $successPaymentId = 'pay_MVNt5SxhE7u8gz';
-    private string $failedPaymentId = 'pay_MUi95hlolc8upp';
+    private string $successPaymentId = 'pay_OksWAei2TRPSGl';
+    private string $failedPaymentId = 'pay_OksZTFombBpMlg';
 
     protected function _before(): void
     {
