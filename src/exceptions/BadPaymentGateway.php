@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\payment\exceptions;
 
 class BadPaymentGateway extends \yii\base\Exception

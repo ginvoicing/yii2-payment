@@ -15,7 +15,7 @@ class Gateway extends Component
     public array $providers = [];
 
     /**
-     * @var bool If you want to enable logging while success and failure of the payment. logging = ['connection' => 'db']
+     * @var false|array If you want to enable logging while success and failure of the payment. logging = ['connection' => 'db']
      */
     public false|array $logging = false;
     private LoggerInterface|null $_logger = null;
@@ -30,12 +30,10 @@ class Gateway extends Component
         }
 
         if ($this->logging !== false && $this->_logger === null) {
-            if (!isset($this->logging['connection']) || empty($this->logging['connection'])
-                || (is_array($this->logging['connection']) && count((array) $this->logging['connection']) === 0)
-            ) {
+            if (empty($this->logging['connection'])) {
                 throw new InvalidConfigException('For logging, you must have to provide db connection.');
             }
-            if (!isset($this->logging['class']) || empty($this->logging['class'])) {
+            if (empty($this->logging['class'])) {
                 $this->logging['class'] = Logger::class;
             }
             $this->_logger = \Yii::createObject($this->logging);
@@ -44,20 +42,15 @@ class Gateway extends Component
 
     public function process(string $gatewayName, string $paymentReference, array $apiCredentials = []): Response
     {
-        /**
-         * ProviderInterface $selectedProvider
-         */
-
         if (!isset($this->providers[$gatewayName])) {
-            throw new ProviderNotFound("Payment gatway \"$gatewayName\" does not exist in providers settings.");
+            throw new ProviderNotFound("Payment gateway \"$gatewayName\" does not exist in providers settings.");
         }
 
-        if (!isset($this->providers[$gatewayName]['apiKey'])
-            && !isset($this->providers[$gatewayName]['apiSecret'])
-        ) {
+        if (!isset($this->providers[$gatewayName]['apiKey'], $this->providers[$gatewayName]['apiSecret'])) {
             throw new InvalidProviderConfig("apiKey and apiSecret are required parameter of \"$gatewayName\" provider.");
         }
 
+        /** @var ProviderInterface $selectedProvider */
         $selectedProvider = \Yii::createObject($this->providers[$gatewayName]);
 
         if (count($apiCredentials) && !(isset($apiCredentials['apiKey']) && isset($apiCredentials['apiSecret']))) {
@@ -71,38 +64,15 @@ class Gateway extends Component
 
         try {
             $response = $selectedProvider->process($paymentReference);
-            if ($this->logging !== false && $this->_logger instanceof LoggerInterface) {
-                $this->_logger->setRecord(
-                    [
-                        'payment_id' => $response->getPaymentId(),
-                        'phone' => $response->getContactPhone(),
-                        'email' => $response->getContactEmail(),
-                        'amount' => $response->getAmount(),
-                        'currency' => $response->getCurrency(),
-                        'status' => $response->getStatus(),
-                        'provider' => $response->getProvider(),
-                        'raw' => $response->getEncodedRaw()
-                    ]
-                );
-            }
+            $this->log($response);
             return $response;
         } catch (BadRequest $e) {
-            if ($this->logging !== false && $this->_logger instanceof LoggerInterface) {
-                $response = unserialize($e->getMessage());
-                $this->_logger->setRecord(
-                    [
-                        'payment_id' => $response->getPaymentId(),
-                        'phone' => $response->getContactPhone(),
-                        'email' => $response->getContactEmail(),
-                        'amount' => $response->getAmount(),
-                        'currency' => $response->getCurrency(),
-                        'status' => $response->getStatus(),
-                        'provider' => $response->getProvider(),
-                        'raw' => $response->getEncodedRaw()
-                    ]
-                );
+            $response = $e->getResponse();
+            if ($response === null) {
+                throw $e;
             }
-            throw new BadRequest($response->getError());
+            $this->log($response);
+            throw new BadRequest((string) $response->getError(), $e->getCode(), $e, $response);
         }
     }
 
@@ -113,5 +83,25 @@ class Gateway extends Component
         }
 
         return false;
+    }
+
+    private function log(Response $response): void
+    {
+        if ($this->logging === false || !$this->_logger instanceof LoggerInterface) {
+            return;
+        }
+
+        $this->_logger->setRecord(
+            [
+                'payment_id' => $response->getPaymentId(),
+                'phone' => $response->getContactPhone(),
+                'email' => $response->getContactEmail(),
+                'amount' => $response->getAmount(),
+                'currency' => $response->getCurrency(),
+                'status' => $response->getStatus(),
+                'provider' => $response->getProvider(),
+                'raw' => $response->getEncodedRaw()
+            ]
+        );
     }
 }

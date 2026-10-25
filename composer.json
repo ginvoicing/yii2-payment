@@ -1,12 +1,12 @@
 {
     "name": "ginvoicing/yii2-payment",
-    "description": "This extension allows yii2 to pull currency from different providers. Cache them in database for further use.",
+    "description": "Yii2 extension to verify payments with different payment gateway providers and log them in database.",
     "keywords": [
         "yii2",
-        "currency",
-        "api",
+        "payment",
         "gateway",
-        "payment"
+        "razorpay",
+        "api"
     ],
     "type": "yii2-extension",
     "license": "MIT",
@@ -22,29 +22,30 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "ext-json": "*",
         "ext-curl": "*",
-        "razorpay/razorpay": "^2.8"
+        "yiisoft/yii2": "^2.0.54",
+        "razorpay/razorpay": "^2.9"
     },
     "require-dev": {
-        "yiisoft/yii2": "dev-master",
-        "phpunit/phpunit": "~9.5.0",
-        "codeception/codeception": "^5.0.0",
-        "codeception/lib-innerbrowser": "^4.0 || ^3.0 || ^1.1",
-        "codeception/module-asserts": "^3.0 || ^1.1",
-        "codeception/module-yii2": "dev-master",
-        "codeception/module-filesystem": "^3.0 || ^2.0 || ^1.1",
-        "codeception/verify": "^3.0 || ^2.2",
-        "symfony/browser-kit": "^6.0 || >=2.7 <=4.2.4",
-        "codeception/specify": "^0.4.6",
-        "phpro/grumphp": "^1.0.0",
-        "yiisoft/yii2-coding-standards": "~2.0.0",
-        "codeception/assert-throws": "^1.1"
+        "phpunit/phpunit": "^12.0",
+        "codeception/codeception": "^5.3",
+        "codeception/lib-innerbrowser": "^4.0",
+        "codeception/module-asserts": "^3.2",
+        "codeception/module-yii2": "^2.0.5",
+        "codeception/assert-throws": "^1.5",
+        "phpro/grumphp": "^2.0",
+        "yiisoft/yii2-coding-standards": "^3.0"
     },
     "autoload": {
         "psr-4": {
             "yii\\payment\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "data\\": "tests/_data/"
         }
     },
     "config": {

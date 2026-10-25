@@ -14,6 +14,16 @@ class RazorPayTest extends Codeception\Test\Unit
         parent::_before();
     }
 
+    /**
+     * Tests calling the live Razorpay API need RAZORPAY_API_KEY and RAZORPAY_API_SECRET.
+     */
+    private function requireRazorPayCredentials(): void
+    {
+        if (!getenv('RAZORPAY_API_KEY') || !getenv('RAZORPAY_API_SECRET')) {
+            $this->markTestSkipped('RAZORPAY_API_KEY and RAZORPAY_API_SECRET are not set.');
+        }
+    }
+
     public function testDBMigration()
     {
         \Yii::$app->runAction('migrate/up', [
@@ -23,6 +33,7 @@ class RazorPayTest extends Codeception\Test\Unit
 
     public function testFetchPaymentBySuccesPaymentId()
     {
+        $this->requireRazorPayCredentials();
         $response = \YII::$app->payment->process('razorpay', $this->successPaymentId);
         $this->assertTrue($response instanceof Response);
         $this->assertTrue($response->getPaymentId() === $this->successPaymentId);
@@ -31,6 +42,7 @@ class RazorPayTest extends Codeception\Test\Unit
 
     public function testFetchPaymentByFailedPaymentId()
     {
+        $this->requireRazorPayCredentials();
         $this->assertThrows(\yii\payment\exceptions\BadRequest::class, function () {
             \YII::$app->payment->process('razorpay', $this->failedPaymentId);
         });
@@ -64,6 +76,7 @@ class RazorPayTest extends Codeception\Test\Unit
 
     public function testRazorPaySelectedPaymentGatewayProvider()
     {
+        $this->requireRazorPayCredentials();
         $response = \YII::$app->payment->process('razorpay', $this->successPaymentId);
         $this->assertTrue($response->getProvider() === 'yii\payment\provider\RazorPay');
     }

@@ -11,8 +11,7 @@ settings:
     memory_limit: 1024M
 coverage:
     enabled: true
-    whitelist:
-        include:
-            - src/*
-        exclude:
-            - tests/*
+    include:
+        - src/*
+    exclude:
+        - tests/*

@@ -6,8 +6,8 @@ use yii\base\UnknownPropertyException;
 
 abstract class Base
 {
-    protected $_attributes;
-    protected array $responseCodesMap;
+    protected array $_attributes = [];
+    protected array $responseCodesMap = [];
 
     public function __construct(array $config = [])
     {
@@ -30,6 +30,6 @@ abstract class Base
 
     public function getName(): string
     {
-        return get_class($this);
+        return static::class;
     }
 }

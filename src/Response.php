@@ -4,13 +4,12 @@ namespace yii\payment;
 
 final class Response
 {
-
     private array $_raw = [];
     private string $_paymentId;
     private float $_amount = 0;
-    private null|string $_currency;
-    private null|string $_contactEmail;
-    private string $_contactPhone;
+    private null|string $_currency = null;
+    private null|string $_contactEmail = null;
+    private null|string $_contactPhone = null;
     private string $_provider;
     private string $_status;
     private string|null $_error = null;
@@ -76,12 +75,12 @@ final class Response
         return $this;
     }
 
-    public function getContactPhone(): string
+    public function getContactPhone(): null|string
     {
         return $this->_contactPhone;
     }
 
-    public function setContactPhone(string $contactPhone): Response
+    public function setContactPhone(null|string $contactPhone): Response
     {
         $this->_contactPhone = $contactPhone;
         return $this;

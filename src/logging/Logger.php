@@ -28,6 +28,7 @@ class Logger extends BaseObject implements LoggerInterface
 
     public function init()
     {
+        parent::init();
         $this->connection = Instance::ensure($this->connection);
 
         if ($this->connection instanceof SqlConnection) {
@@ -50,7 +51,7 @@ class Logger extends BaseObject implements LoggerInterface
     /**
      * @inheritdoc
      */
-    public function setRecord($data): bool
+    public function setRecord(array $data): bool
     {
         $record = new $this->_model();
         foreach ($data as $key => $value) {
@@ -69,7 +70,7 @@ class Logger extends BaseObject implements LoggerInterface
     {
         if (!empty($paymentId)) {
             $record = new $this->_model();
-            $record = $record->findOne(['response_id' => $paymentId]);
+            $record = $record->findOne(['payment_id' => $paymentId]);
             if ($record) {
                 foreach ($data as $key => $value) {
                     if ($record->hasAttribute($key)) {
@@ -83,5 +84,4 @@ class Logger extends BaseObject implements LoggerInterface
 
         return false;
     }
-
 }
