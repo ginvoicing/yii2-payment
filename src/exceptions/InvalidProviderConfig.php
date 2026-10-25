@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\payment\exceptions;
 
 use yii\base\InvalidConfigException;

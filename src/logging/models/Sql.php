@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\payment\logging\models;
 
 use yii\db\ActiveRecord;

@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\payment\migrations;
 
 class M321203203317PaymentLogger extends \yii\db\Migration

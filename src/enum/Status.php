@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\payment\enum;
 
 enum Status: string

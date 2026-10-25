@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\payment\logging;
 
 interface LoggerInterface
@@ -14,7 +15,7 @@ interface LoggerInterface
     /**
      * Update log record by payment id
      *
-     * @param string $response_id
+     * @param string $paymentId
      * @param array $data
      * @return bool
      */
